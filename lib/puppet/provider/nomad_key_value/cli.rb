@@ -1,16 +1,17 @@
 require 'json'
-require 'puppet/parameter/boolean'
 
 Puppet::Type.type(:nomad_key_value).provide(:cli) do
   desc 'Provider to manage Nomad variables using `nomad var put`.'
-
-  confine :true => File.executable?(resource[:binary_path])
 
   def nomad_command
     resource[:binary_path]
   end
 
   def build_command_args
+    unless File.executable?(resource[:binary_path])
+      raise Puppet::Error, "Nomad binary at #{resource[:binary_path]} is not executable or not found."
+    end
+
     args = []
     args << "-token=#{resource[:nomad_token]}" unless resource[:nomad_token].nil? || resource[:nomad_token].empty?
     args << "-address=#{resource[:nomad_url]}"
