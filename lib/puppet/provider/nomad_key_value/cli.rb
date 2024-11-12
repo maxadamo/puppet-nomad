@@ -13,8 +13,8 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     end
 
     args = []
-    args << "-token=#{resource[:nomad_token]}" unless resource[:nomad_token].nil? || resource[:nomad_token].empty?
-    args << "-address=#{resource[:nomad_url]}"
+    args << "-token=#{resource[:token]}" unless resource[:token].nil? || resource[:token].empty?
+    args << "-address=#{resource[:address]}"
     args << "-datacenter=#{resource[:datacenter]}" unless resource[:datacenter].nil? || resource[:datacenter].empty?
     args << "-region=#{resource[:region]}"
     args << "-namespace=#{resource[:namespace]}" unless resource[:namespace].nil? || resource[:namespace].empty?

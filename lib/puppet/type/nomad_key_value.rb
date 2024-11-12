@@ -28,16 +28,16 @@ Puppet::Type.newtype(:nomad_key_value) do
     defaultto '/usr/bin/nomad'
   end
 
-  newparam(:nomad_url) do
-    desc 'Name of the region. It defaults to global'
+  newparam(:address) do
+    desc 'Nomad URL, with scheme and port number. It defaults to http://127.0.0.1:4646'
     validate do |value|
-      raise ArgumentError, 'The region must be an string' unless value.is_a?(String)
+      raise ArgumentError, 'The url must be a string' unless value.is_a?(String)
     end
     defaultto 'http://127.0.0.1:4646'
   end
 
   newparam(:token) do
-    desc 'Nomad token for accessing the variables'
+    desc 'Nomad token with read and write access to the variables'
     validate do |value|
       raise ArgumentError, 'Nomad token must be a string' unless value.is_a?(String)
     end
