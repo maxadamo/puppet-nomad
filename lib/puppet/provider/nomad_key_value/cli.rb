@@ -55,7 +55,12 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     end
 
     command += [resource[:name], '-']
-    execute(command, stdinfile: StringIO.new(json_value))
+    Tempfile.open('nomad_var') do |tempfile|
+      tempfile.write(json_value)
+      tempfile.flush
+
+      execute(command, stdinfile: tempfile.path)
+    end
   end
 
   def destroy
