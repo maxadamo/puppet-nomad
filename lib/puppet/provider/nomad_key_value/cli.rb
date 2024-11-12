@@ -1,4 +1,5 @@
 require 'json'
+require 'puppet/parameter/boolean'
 
 Puppet::Type.type(:nomad_key_value).provide(:cli) do
   desc 'Provider to manage Nomad variables using `nomad var put`.'
