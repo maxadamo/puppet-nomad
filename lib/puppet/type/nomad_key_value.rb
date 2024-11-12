@@ -1,3 +1,5 @@
+require 'puppet/parameter/boolean'
+
 Puppet::Type.newtype(:nomad_key_value) do
   desc <<-EOD
   Manage Nomad key value objects.
