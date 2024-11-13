@@ -44,20 +44,7 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     puts "Existing items: #{@existing_items}"
     puts "Value set on Puppet: #{resource[:value]}"
     @existing_items == resource[:value]
-  end
-
-  def exists?
-    result = fetch_existing
-    return false if result.nil?
-
-    @modify_index = result['ModifyIndex']
-    @existing_items = result['Items']
-
-    # Debugging output
-    puts "Existing items: #{@existing_items}"
-    puts "Value set on Puppet: #{resource[:value]}"
-
-    # Compare existing items with the specified value in the resource
+    puts 'end of exists'
     @existing_items == resource[:value]
   end
 
