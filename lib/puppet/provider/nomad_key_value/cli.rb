@@ -26,8 +26,10 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
   end
 
   def fetch_existing
+    puts 'fetch_existing'
     command = [nomad_command, 'var', 'get', '-out', 'json'] + build_command_args + [resource[:name]]
     output = execute(command, failonfail: false)
+    puts "Output: #{output}"
     JSON.parse(output)
   rescue JSON::ParserError, Puppet::ExecutionFailure
     nil
@@ -70,14 +72,10 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     json_value = { 'Items' => value }.to_json
     command = [nomad_command, 'var', 'put', '-in', 'json'] + build_command_args
     command += ['-check-index', modify_index.to_s] if modify_index
-    #puts "JSON from Puppet manifest #{json_value}"
-    #puts command.join(' ')
-    #puts resource[:name]
 
     Tempfile.open('nomad_var') do |tempfile|
       tempfile.write(json_value)
       tempfile.flush
-      #puts tempfile.path
       execute(command + [resource[:name], '-'], stdinfile: tempfile.path)
     end
     puts 'end of run_nomad_command'
