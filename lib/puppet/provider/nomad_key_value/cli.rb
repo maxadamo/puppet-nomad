@@ -69,7 +69,7 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
 
   private
 
-  def run_nomad_command(value, modify_index = nil)
+  def run_nomad_command(value = resource[:value], modify_index = nil)
     puts 'run_nomad_command'
     json_value = { 'Items' => value }.to_json
     command = [nomad_command, 'var', 'put', '-in', 'json'] + build_command_args
