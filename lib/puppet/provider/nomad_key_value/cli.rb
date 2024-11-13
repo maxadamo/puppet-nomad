@@ -50,9 +50,12 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
   end
 
   def create
+    puts 'create'
     if @result.nil?
+      puts 'really create'
       run_nomad_command(resource[:value])
     else
+      puts 'really update'
       run_nomad_command(resource[:value], @modify_index)
     end
   end
