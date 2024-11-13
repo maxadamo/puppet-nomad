@@ -36,13 +36,11 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
   end
 
   def exists?
-    @result = fetch_existing
-    return false if @result.nil?
-    puts "Result: #{@result}"
-    @modify_index = @result['ModifyIndex']
-    @existing_items = @result['Items']
-    puts "Result: #{@modify_index}"
-    puts "Existing Items: #{@existing_items}"
+    result = fetch_existing
+    return false if result.nil?
+
+    @modify_index = result['ModifyIndex']
+    @existing_items = result['Items']
 
     if @existing_items == resource[:value]
       puts 'true'
@@ -55,31 +53,19 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
 
   def create
     puts 'create'
-    if @result.nil?
-      puts 'really create'
-      run_nomad_command(resource[:value])
-    else
-      puts 'really update'
-      run_nomad_command(resource[:value], @modify_index)
-    end
-  end
-
-  def destroy
-    command = [nomad_command, 'var', 'delete'] + build_command_args + [resource[:name]]
-    execute(command)
-  end
-
-  private
-
-  def run_nomad_command(value, modify_index = nil)
     json_value = { 'Items' => value }.to_json
     command = [nomad_command, 'var', 'put', '-in', 'json'] + build_command_args
-    command += ['-check-index', modify_index.to_s] if modify_index
+    command += ['-check-index', @modify_index.to_s] if @modify_index
 
     Tempfile.open('nomad_var') do |tempfile|
       tempfile.write(json_value)
       tempfile.flush
       execute(command + [resource[:name], '-'], stdinfile: tempfile.path)
     end
+  end
+
+  def destroy
+    command = [nomad_command, 'var', 'delete'] + build_command_args + [resource[:name]]
+    execute(command)
   end
 end
