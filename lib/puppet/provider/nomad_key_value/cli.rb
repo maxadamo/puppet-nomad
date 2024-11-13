@@ -63,10 +63,14 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     json_value = { 'Items' => value }.to_json
     command = [nomad_command, 'var', 'put', '-in', 'json'] + build_command_args
     command += ['-check-index', modify_index.to_s] if modify_index
+    puts json_value
+    puts command.join(' ')
+    puts resource[:name]
 
     Tempfile.open('nomad_var') do |tempfile|
       tempfile.write(json_value)
       tempfile.flush
+      puts tempfile.path
       execute(command + [resource[:name], '-'], stdinfile: tempfile.path)
     end
   end
