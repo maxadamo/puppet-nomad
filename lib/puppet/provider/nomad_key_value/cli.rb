@@ -45,16 +45,22 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
   end
 
   def create
+    puts 'create'
     run_nomad_command(resource[:value])
+    puts 'end of create'
   end
 
   def update
+    puts 'update'
     run_nomad_command(resource[:value], @modify_index)
+    puts 'end of update'
   end
 
   def destroy
+    puts 'destroy'
     command = [nomad_command, 'var', 'delete'] + build_command_args + [resource[:name]]
     execute(command)
+    puts 'end of destroy'
   end
 
   private
@@ -73,5 +79,6 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
       #puts tempfile.path
       execute(command + [resource[:name], '-'], stdinfile: tempfile.path)
     end
+    puts 'end of run_nomad_command'
   end
 end
