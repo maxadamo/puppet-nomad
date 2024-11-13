@@ -44,14 +44,6 @@ Puppet::Type.newtype(:nomad_key_value) do
     defaultto ''
   end
 
-  newparam(:datacenter) do
-    desc 'Name of the datacenter to query. If unspecified, the query will default to the datacenter of the nomad agent at the HTTP address.'
-    validate do |value|
-      raise ArgumentError, 'Datacenter must be a string' unless value.is_a?(String)
-    end
-    defaultto ''
-  end
-
   newparam(:region) do
     desc 'Name of the region. It defaults to global'
     validate do |value|

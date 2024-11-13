@@ -14,7 +14,6 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     args = []
     args << "-token=#{resource[:token]}" unless resource[:token].to_s.empty?
     args << "-address=#{resource[:address]}"
-    args << "-datacenter=#{resource[:datacenter]}" unless resource[:datacenter].to_s.empty?
     args << "-region=#{resource[:region]}"
     args << "-namespace=#{resource[:namespace]}" unless resource[:namespace].to_s.empty?
     args << "-tls-server-name=#{resource[:tls_server_name]}" unless resource[:tls_server_name].to_s.empty?
