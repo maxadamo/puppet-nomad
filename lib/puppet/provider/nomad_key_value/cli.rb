@@ -44,9 +44,13 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     puts "Result: #{@modify_index}"
     puts "Existing Items: #{@existing_items}"
 
-    return true if @existing_items == resource[:value]
-    puts 'hello'
-    return false
+    if @existing_items == resource[:value]
+      puts 'true'
+      true
+    else
+      puts 'false'
+      false
+    end
   end
 
   def create
