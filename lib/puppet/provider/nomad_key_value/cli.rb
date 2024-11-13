@@ -42,19 +42,34 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     @modify_index = result['ModifyIndex']
     @existing_items = result['Items']
     puts "Existing items: #{@existing_items}"
-    puts "Value set on Puppet: #{resource[:value]}"
-    @existing_items == resource[:value]
+    puts "Value set on Puppet: #{resource[:key_value]}"
+    @existing_items == resource[:key_value]
+  end
+
+  def exists?
+    result = fetch_existing
+    return false if result.nil?
+
+    @modify_index = result['ModifyIndex']
+    @existing_items = result['Items']
+
+    # Debugging output
+    puts "Existing items: #{@existing_items}"
+    puts "Value set on Puppet: #{resource[:key_value]}"
+
+    # Compare existing items with the specified key_value in the resource
+    @existing_items == resource[:key_value]
   end
 
   def create
     puts 'create'
-    run_nomad_command(resource[:value])
+    run_nomad_command(resource[:key_value])
     puts 'end of create'
   end
 
   def update
     puts 'update'
-    run_nomad_command(resource[:value], @modify_index)
+    run_nomad_command(resource[:key_value], @modify_index)
     puts 'end of update'
   end
 
@@ -67,9 +82,9 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
 
   private
 
-  def run_nomad_command(value, modify_index = nil)
+  def run_nomad_command(key_value, modify_index = nil)
     puts 'run_nomad_command'
-    json_value = { 'Items' => value }.to_json
+    json_value = { 'Items' => key_value }.to_json
     command = [nomad_command, 'var', 'put', '-in', 'json'] + build_command_args
     command += ['-check-index', modify_index.to_s] if modify_index
 

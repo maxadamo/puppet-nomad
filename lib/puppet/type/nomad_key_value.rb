@@ -13,8 +13,8 @@ Puppet::Type.newtype(:nomad_key_value) do
     end
   end
 
-  newproperty(:value) do
-    desc 'The key value string'
+  newproperty(:key_value) do
+    desc 'The key-value pairs to set'
     validate do |value|
       raise ArgumentError, 'The key value must be a hash' unless value.is_a?(Hash)
     end
