@@ -43,8 +43,11 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     @existing_items = result['Items']
     puts "Existing items: #{@existing_items}"
     puts "Value set on Puppet: #{resource[:value]}"
-    @existing_items == resource[:value]
-    puts 'end of exists'
+    if @existing_items == resource[:value]
+      puts 'it is the same'
+    else
+      puts 'it is not the same'
+    end
     @existing_items == resource[:value]
   end
 
