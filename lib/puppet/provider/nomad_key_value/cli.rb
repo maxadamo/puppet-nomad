@@ -38,11 +38,14 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
   def exists?
     @result = fetch_existing
     return false if @result.nil?
-
+    puts "Result: #{@result}"
     @modify_index = @result['ModifyIndex']
     @existing_items = @result['Items']
+    puts "Result: #{@modify_index}"
+    puts "Existing Items: #{@existing_items}"
 
     return true if @existing_items == resource[:value]
+    puts 'hello'
     return false
   end
 
@@ -62,7 +65,6 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
   private
 
   def run_nomad_command(value, modify_index = nil)
-    puts 'run_nomad_command'
     json_value = { 'Items' => value }.to_json
     command = [nomad_command, 'var', 'put', '-in', 'json'] + build_command_args
     command += ['-check-index', modify_index.to_s] if modify_index
@@ -72,6 +74,5 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
       tempfile.flush
       execute(command + [resource[:name], '-'], stdinfile: tempfile.path)
     end
-    puts 'end of run_nomad_command'
   end
 end
