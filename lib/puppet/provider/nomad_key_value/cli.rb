@@ -41,16 +41,13 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     @existing_items = result['Items']
 
     if @existing_items == resource[:value]
-      puts 'true'
       true
     else
-      puts 'false'
       false
     end
   end
 
   def create
-    puts 'create'
     json_value = { 'Items' => resource[:value] }.to_json
     command = [nomad_command, 'var', 'put', '-in', 'json'] + build_command_args
     command += ['-check-index', @modify_index.to_s] if @modify_index
@@ -65,5 +62,9 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
   def destroy
     command = [nomad_command, 'var', 'delete'] + build_command_args + [resource[:name]]
     execute(command)
+  end
+
+  def value
+    @property_hash[:value]
   end
 end
