@@ -63,9 +63,4 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     command = [nomad_command, 'var', 'delete'] + build_command_args + [resource[:name]]
     execute(command)
   end
-
-  def value
-    #@property_hash[:value]
-    resource[:value]
-  end
 end
