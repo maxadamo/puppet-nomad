@@ -65,6 +65,7 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
   end
 
   def value
-    @property_hash[:value]
+    #@property_hash[:value]
+    resource[:value]
   end
 end
