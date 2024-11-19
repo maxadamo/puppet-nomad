@@ -48,7 +48,7 @@ describe 'nomad class' do
     end
 
     describe command('nomad version') do
-      its(:stdout) { is_expected.to match(%r{Nomad v1\.0\.3}) }
+      its(:stdout) { is_expected.to match(%r{Nomad v1\.9\.3}) }
     end
   end
 end
