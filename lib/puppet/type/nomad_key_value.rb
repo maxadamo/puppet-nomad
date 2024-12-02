@@ -27,7 +27,7 @@ Puppet::Type.newtype(:nomad_key_value) do
     validate do |value|
       raise ArgumentError, "The binary path must be an absolute path to nomad, or the string nomad if it's included in PATH" unless value.is_a?(String)
     end
-    defaultto 'nomad'
+    defaultto '/usr/bin/nomad'
   end
 
   newparam(:address) do
