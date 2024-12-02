@@ -554,7 +554,7 @@ Default value: `http://127.0.0.1:4646`
 
 Path to the nomad binary
 
-Default value: `nomad`
+Default value: `/usr/bin/nomad`
 
 ##### <a name="-nomad_key_value--ca_cert"></a>`ca_cert`
 
