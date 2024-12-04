@@ -4,6 +4,14 @@ require 'spec_helper'
 require 'json'
 
 describe Puppet::Type.type(:nomad_key_value).provider(:default) do
+  let(:resource) do
+    Puppet::Type.type(:nomad_key_value).new(
+      name: 'hello/kitty',
+      value: { 'key10' => 'value12', 'key20' => 'value20' },
+      binary_path: '/usr/bin/nomad'
+    )
+  end
+
   let(:kv_content) do
     {
       'Namespace' => 'default',
@@ -19,14 +27,6 @@ describe Puppet::Type.type(:nomad_key_value).provider(:default) do
     }
   end
 
-  let(:resource) do
-    Puppet::Type.type(:nomad_key_value).new(
-      name: 'hello/kitty',
-      value: { 'key10' => 'value12', 'key20' => 'value20' },
-      binary_path: '/usr/bin/nomad'
-    )
-  end
-
   let(:resources) { { 'hello/kitty' => resource } }
 
   describe '.list_resources' do
@@ -35,18 +35,16 @@ describe Puppet::Type.type(:nomad_key_value).provider(:default) do
         success_status = instance_double(Process::Status, success?: true)
         allow(Open3).to receive(:capture3).
           with('/usr/bin/nomad var get -out json hello/kitty').
-          to_return(['johnny', '', success_status]). # First attempt fails
-          and_return(['mary', '', success_status]). # Second attempt fails
-          and_return([JSON.dump(kv_content), '', success_status]) # Third attempt succeeds
+          and_return(['johnny', '', success_status]).
+          and_return(['mary', '', success_status]).
+          and_return([JSON.dump(kv_content), '', success_status])
 
         described_class.reset
         described_class.prefetch(resources)
 
-        # Parse the JSON returned by the mocked command
         output, _status = Open3.capture3('/usr/bin/nomad var get -out json hello/kitty')
         json_data = JSON.parse(output)
 
-        # Check only the "Items" key
         expect(json_data['Items']).to eq({ 'key10' => 'value12', 'key20' => 'value20' })
       end
     end
