@@ -37,7 +37,7 @@ describe Puppet::Type.type(:nomad_key_value).provider(:default) do
           with('/usr/bin/nomad var get -out json hello/kitty').
           and_return(['johnny', '', success_status]).
           and_return(['mary', '', success_status]).
-          and_return([JSON.dump(kv_content), '', success_status])
+          and_return([JSON.dump('sdfsfds'), '', success_status])
 
         described_class.reset
         described_class.prefetch(resources)
