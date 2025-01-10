@@ -27,11 +27,7 @@ describe Puppet::Type.type(:nomad_key_value) do
     end
 
     it 'defaults to global' do
-      expect(key_value[:protocol]).to eq('global')
-    end
-
-    it 'defaults to default' do
-      expect(key_value[:namespace]).to eq('default')
+      expect(key_value[:region]).to eq('global')
     end
   end
 end
