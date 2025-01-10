@@ -14,8 +14,7 @@ describe Puppet::Type.type(:nomad_key_value) do
         value: {
           'key1' => 'value1',
           'key2' => 'value2',
-        },
-        datacenter: 'ptk'
+        }
       )
     end
 

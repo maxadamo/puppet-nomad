@@ -11,8 +11,7 @@ describe Puppet::Type.type(:nomad_key_value).provider(:cli) do
         value: {
           'key1' => 'value1',
           'key2' => 'value2',
-        },
-        datacenter: 'ptk',
+        }
       }
     )
   end

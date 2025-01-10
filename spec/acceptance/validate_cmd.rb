@@ -9,12 +9,12 @@ describe 'nomad class' do
       class { 'nomad':
         config_validator => 'ruby_validator',
         config_hash      => {
-        region     => 'us-west',
-        datacenter => 'ptk',
-        log_level  => 'INFO',
-        bind_addr  => "0.0.0.0",
-        data_dir   => "/var/lib/nomad",
-        server     => {
+          region     => 'us-west',
+          datacenter => 'ptk',
+          log_level  => 'INFO',
+          bind_addr  => "0.0.0.0",
+          data_dir   => "/var/lib/nomad",
+          server     => {
             enabled => false,
           }
         },
@@ -46,12 +46,12 @@ describe 'nomad class' do
       class { 'nomad':
         config_validator => 'ruby_validator',
         config_hash      => {
-        region     => 'us-west',
-        datacenter => 'ptk',
-        log_level  => 'INFO',
-        bind_addr  => "0.0.0.0",
-        data_dir   => "/var/lib/nomad",
-        server     => {
+          region     => 'us-west',
+          datacenter => 'ptk',
+          log_level  => 'INFO',
+          bind_addr  => "0.0.0.0",
+          data_dir   => "/var/lib/nomad",
+          server     => {
             enabled => false,
           }
         },
@@ -86,12 +86,12 @@ describe 'nomad class' do
       -> class { 'nomad':
         config_validator => 'ruby_validator',
         config_hash      => {
-        region     => 'us-west',
-        datacenter => 'ptk',
-        log_level  => 'INFO',
-        bind_addr  => "0.0.0.0",
-        data_dir   => "/var/lib/nomad",
-        server     => {
+          region     => 'us-west',
+          datacenter => 'ptk',
+          log_level  => 'INFO',
+          bind_addr  => "0.0.0.0",
+          data_dir   => "/var/lib/nomad",
+          server     => {
             enabled => false,
           }
         },
@@ -128,12 +128,12 @@ describe 'nomad class' do
     pp = <<-MANIFEST
       class { 'nomad':
         config_hash => {
-        region     => 'us-west',
-        datacenter => 'ptk',
-        log_level  => 'INFO',
-        bind_addr  => "0.0.0.0",
-        data_dir   => "/var/lib/nomad",
-        server     => {
+          region     => 'us-west',
+          datacenter => 'ptk',
+          log_level  => 'INFO',
+          bind_addr  => "0.0.0.0",
+          data_dir   => "/var/lib/nomad",
+          server     => {
             enabled => false,
           }
         },

@@ -7,12 +7,12 @@ describe 'nomad class' do
     pp = <<-EOS
       class { 'nomad':
         config_hash => {
-        region     => 'us-west',
-        datacenter => 'ptk',
-        log_level  => 'INFO',
-        bind_addr  => "0.0.0.0",
-        data_dir   => "/var/lib/nomad",
-        server     => {
+          region     => 'us-west',
+          datacenter => 'ptk',
+          log_level  => 'INFO',
+          bind_addr  => "0.0.0.0",
+          data_dir   => "/var/lib/nomad",
+          server     => {
             enabled          => true,
             bootstrap_expect => 1
           }
