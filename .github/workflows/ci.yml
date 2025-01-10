@@ -11,6 +11,7 @@ on:
     branches:
       - main
       - master
+      - test
 
 concurrency:
   group: ${{ github.ref_name }}

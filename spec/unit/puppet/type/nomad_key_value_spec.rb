@@ -2,16 +2,14 @@
 
 require 'spec_helper'
 
-describe Puppet::Type.type(:consul_key_value) do
+describe Puppet::Type.type(:nomad_key_value) do
   it 'fails if no name is provided' do
-    expect do
-      Puppet::Type.type(:consul_key_value).new(type: 'client')
-    end.to raise_error(Puppet::Error, %r{Title or name must be provided})
+    Puppet::Type.type(:nomad_key_value).new(name: 'hello/kitty')
   end
 
   context 'with query parameters provided' do
     let(:key_value) do
-      Puppet::Type.type(:consul_key_value).new(
+      Puppet::Type.type(:nomad_key_value).new(
         name: 'hello/kitty',
         value: {
           'key1' => 'value1',
@@ -19,6 +17,10 @@ describe Puppet::Type.type(:consul_key_value) do
         },
         datacenter: 'ptk'
       )
+    end
+
+    it 'has its name set' do
+      expect(key_value[:name]).to eq('hello/kitty')
     end
 
     it 'defaults to http://127.0.0.1:4646' do
