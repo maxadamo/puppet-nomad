@@ -21,10 +21,13 @@ describe Puppet::Type.type(:nomad_key_value).provider(:cli) do
   describe '.list_resources' do
     context 'when the first two responses are unexpected' do
       it 'retries 3 times' do
+        success_status = instance_double(Process::Status, success?: true)
+        failure_status = instance_double(Process::Status, success?: false)
+
         allow(Open3).to receive(:capture3).
           with('/usr/bin/nomad var get -out json hello/kitty').
-          and_return(['', instance_double(success?: false)]).
-          and_return(['', instance_double(success?: false)]).
+          and_return(['', '', failure_status]). # First attempt fails
+          and_return(['', '', failure_status]). # Second attempt fails
           and_return([
                        JSON.dump(
                          'Namespace' => 'default',
@@ -36,10 +39,9 @@ describe Puppet::Type.type(:nomad_key_value).provider(:cli) do
                            'key2' => 'value2',
                          }
                        ),
-                       instance_double(success?: true)
+                       success_status
                      ])
 
-        described_class.reset
         described_class.prefetch(resources)
         expect(resource.provider.ensure).to be(:present)
 

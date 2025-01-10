@@ -35,6 +35,30 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     nil
   end
 
+  def self.instances
+    command = ['/usr/bin/nomad', 'var', 'list', '-out', 'json']
+    output = Puppet::Util::Execution.execute(command)
+    resources = JSON.parse(output)
+
+    resources.map do |resource|
+      new(
+        name: resource['Path'],
+        ensure: :present,
+        value: resource['Items']
+      )
+    end
+  rescue Puppet::ExecutionFailure, JSON::ParserError
+    []
+  end
+
+  def self.prefetch(resources)
+    instances.each do |prov|
+      if (resource = resources[prov.name])
+        resource.provider = prov
+      end
+    end
+  end
+
   def exists?
     result = fetch_existing
     return false if result.nil?
