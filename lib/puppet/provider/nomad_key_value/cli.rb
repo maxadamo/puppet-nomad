@@ -31,7 +31,8 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
     command = [nomad_command, 'var', 'get', '-out', 'json'] + build_command_args + [resource[:name]]
     output = execute(command, failonfail: false)
     JSON.parse(output)
-  rescue JSON::ParserError, Puppet::ExecutionFailure
+  rescue JSON::ParserError, Puppet::ExecutionFailure => e
+    Puppet.warning("Failed to fetch existing resource: #{e.message}")
     nil
   end
 
@@ -57,6 +58,11 @@ Puppet::Type.type(:nomad_key_value).provide(:cli) do
         resource.provider = prov
       end
     end
+  end
+
+  # Reset the state of the provider between tests.
+  def self.reset
+    @resources = {}
   end
 
   def exists?

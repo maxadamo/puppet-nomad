@@ -10,6 +10,7 @@ describe Puppet::Type.type(:nomad_key_value) do
   context 'with query parameters provided' do
     let(:key_value) do
       Puppet::Type.type(:nomad_key_value).new(
+        ensure: 'present',
         name: 'hello/kitty',
         value: {
           'key1' => 'value1',

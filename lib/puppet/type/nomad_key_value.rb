@@ -20,11 +20,11 @@ Puppet::Type.newtype(:nomad_key_value) do
             'key1' => 'value1',
             'key2' => 'value2',
           };
-        'test_again/keys':
+        'hello/kitty':
           ensure => absent,
           value  => {
-            'key1' => 'value13',
-            'key2' => 'value21',
+            'key3' => 'value3',
+            'key4' => 'value4',
           };
       }
   EOD
