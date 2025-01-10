@@ -43,7 +43,7 @@ describe Puppet::Type.type(:nomad_key_value).provider(:cli) do
                      ])
 
         described_class.prefetch(resources)
-        expect(resource.provider.ensure).to be(:present)
+        expect(resource.provider.exists?).to be true
 
         output, _status = Open3.capture3('/usr/bin/nomad var get -out json hello/kitty')
         json_data = JSON.parse(output)
